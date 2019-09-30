@@ -1,7 +1,7 @@
-name: "GWAS_catalog"
+name: GWAS_catalog
 output_dir: ../docs
 navbar:
-  title: "GWAS_catalog"
+  title: GWAS_catalog
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/jgblanc/GWAS_catalog
 output:
   workflowr::wflow_html:
     toc: yes
