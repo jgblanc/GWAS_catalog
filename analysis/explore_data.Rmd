@@ -295,4 +295,9 @@ colnames(sample_size) <- c("disease", "num_associations")
 kable(sample_size)
 ```
 
+# Risk Allele Freq vs Effect Size 
+```{r, warning=FALSE, fig.height=8, fig.width=10}
+ggplot(data=combined, aes(x = RISK.ALLELE.FREQUENCY, y=OR.or.BETA)) + geom_point(col = "navy") + facet_wrap(~disease, scales = "free") + theme_bw()
+```
+
 
