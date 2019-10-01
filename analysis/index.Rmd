@@ -10,4 +10,4 @@ editor_options:
 
 Welcome to my research website.
 
-Click on this [link](explore.html) to see my results.
+Click on this [link](explore_data.html) to see my results.
