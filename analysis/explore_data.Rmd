@@ -1,0 +1,298 @@
+---
+title: "GWAS Catalog Data"
+author: "jgblanc"
+date: "2019-09-30"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+```
+
+# Data Cleaning  
+
+Filter for:   
+
+  * Study description contains "European"  
+  * P-value <= 5.0e-8  
+  * Risk allele freq between 0 and 1  
+
+
+Myopia - pathological myopia - EFO_0004207  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/pathological_myopia.tsv",sep = '\t', header = TRUE)
+myopia <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+myopia$disease <- "myopia"
+```
+
+Sudden cardiac arrest - EFO_0004278
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/sudden_cardiac_arrest.tsv",sep = '\t', header = TRUE)
+sudden_cardiac_arrest <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+sudden_cardiac_arrest$disease <- "sudden_cardiac_arrest"
+```
+
+Systemic lupus erythematosus - EFO_0002690
+**Check this one** 
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/systemic_lupus_erythematosus.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+systemic_lupus_erythematosus <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+systemic_lupus_erythematosus$disease <- "systemic_lupus_erythematosus"
+```
+
+Systemic sclerosis - systemic scleroderma - EFO_0000717  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/systemic_scleroderma.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+systemic_scleroderma <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+systemic_scleroderma$disease <- "systemic_scleroderma"
+```
+
+Melonoma - EFO_0000756  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/melanoma.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+melanoma <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+melanoma$disease <- "melanoma"
+```
+
+Atrial fibrillation - EFO_0000275  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/atrial_fibrillation.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+atrial_fibrillation <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+atrial_fibrillation$disease <- "atrial_fibrillation"
+```
+
+Type II Diabetes - type II diabetes mellitus - EFO_0001360  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/type_2_diabetes.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+type_2_diabetes <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+type_2_diabetes$disease <- "type_2_diabetes"
+```
+
+Chronic kidney disease - EFO_0003884  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/chronic_kidney_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+chronic_kidney_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+chronic_kidney_disease$disease <- "chronic_kidney_disease"
+```
+
+Age-related macular degeneration - EFO_0001365  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/age_related_macular_degeneration.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+age_related_macular_degeneration <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+age_related_macular_degeneration$disease <- "age_related_macular_degeneration"
+```
+
+Primary biliary cholangitis - Primary biliary cirrhosis - EFO_1001486  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/primary_biliary_cholangitis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+primary_biliary_cholangitis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+primary_biliary_cholangitis$disease <- "primary_biliary_cholangitis"
+```
+
+Vitiligo - EFO_0004208  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/vitiligo.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+vitiligo <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+vitiligo$disease <- "vitiligo"
+```
+
+Ankylosing spondylitis - EFO_0003898  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/ankylosing_spondylitis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+ankylosing_spondylitis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+ankylosing_spondylitis$disease <- "ankylosing_spondylitis"
+```
+
+**Deal with Breast Cancer later** 
+Breast cancer - triple negative breast cancer (EFO_0005537), BRACAX breast cancer (EFO_0009443), estrogen-receptor postive breast cancer (EFO_1000649), estrogen-receptor negative breast cancer (EFO_0009781)  
+```{r, warning=F, echo=FALSE}
+data <- read.csv("data/breast_cancer_all.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data <- subset(data, !grepl("PUBMEDID", data$PUBMEDID))
+data$P.VALUE <- as.numeric(as.character(data$P.VALUE))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+breast_cancer <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) 
+#%>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+```
+
+Crohn's disease - EFO_0000384  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/crohns_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+crohns_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+crohns_disease$disease <- "crohns_disease"
+```
+
+Prostate cancer - prostate carcinoma - EFO_0001663  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/prostate_cancer.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+prostate_cancer <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+prostate_cancer$disease <- "prostate_cancer"
+```
+
+Celiac disease - EFO_0001060
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/celiac_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+celiac_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+celiac_disease$disease <- "celiac_disease"
+```
+
+Obesity - EFO_0001073  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/obesity.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+obesity <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+obesity$disease <- "obesity"
+```
+
+Colorectal cancer - EFO_0005842  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/colorectal_cancer.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+colorectal_cancer <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+colorectal_cancer$disease <- "colorectal_cancer"
+```
+
+Rheumatoid Arthritis - EFO_0000685  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/rheumatoid_arthritis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+rheumatoid_arthritis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+rheumatoid_arthritis$disease <- "rheumatoid_arthritis"
+```
+
+Psoriasis - EFO_0000676  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/psoriasis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+psoriasis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+psoriasis$disease <- "psoriasis"
+```
+
+Coronary heart disease - EFO_0001645  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/coronary_heart_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+coronary_heart_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+coronary_heart_disease$disease <- "coronary_heart_disease"
+```
+
+Testicular germ cell tumor - EFO_1000566  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/testicular_germ_cell_tumor.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+testicular_germ_cell_tumor <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+testicular_germ_cell_tumor$disease <- "testicular_germ_cell_tumor"
+```
+
+Type I diabetes - EFO_0001359  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/type_1_diabetes.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+type_1_diabetes <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+type_1_diabetes$disease <- "type_1_diabetes"
+```
+
+Ulcerative colitis - EFO_0000729
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/ulcerative_colitis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+ulcerative_colitis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+ulcerative_colitis$disease <- "ulcerative_colitis"
+```
+
+Schizophrenia - EFO_0000692  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/schizophrenia.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+schizophrenia <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+schizophrenia$disease <- "schizophrenia"
+```
+
+Metabolic syndrome - EFO_0000195  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/metabolic_syndrome.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+metabolic_syndrome <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+metabolic_syndrome$disease <- "metabolic_syndrome"
+```
+
+Chronic lymphocytic leukemia - EFO_0000095  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/chronic_lymphocytic_leukemia.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+chronic_lymphocytic_leukemia <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+chronic_lymphocytic_leukemia$disease <- "chronic_lymphocytic_leukemia"
+```
+
+Multiple sclerosis - EFO_0003885  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/multiple_sclerosis.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+multiple_sclerosis <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+multiple_sclerosis$disease <- "multiple_sclerosis"
+```
+
+Asthma - EFO_0000270  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/asthma.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+asthma <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+asthma$disease <- "asthma"
+```
+
+Inflamatory bowel disease - EFO_0000270  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/inflamatory_bowel_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+inflamatory_bowel_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+inflamatory_bowel_disease$disease <- "inflamatory_bowel_disease"
+```
+
+Parkinson's disease - EFO_0002508  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/parkinsons_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+parkinsons_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+parkinsons_disease$disease <- "parkinsons_disease"
+```
+
+Late-onset Alzeheimers - Alzeheimer's disease (late-onset) - EFO_1001870  
+```{r, warning=FALSE, echo=FALSE}
+data <- read.csv("data/alzheimers_disease.tsv",sep = '\t', header = TRUE, na.strings=c("","NA"))
+data$RISK.ALLELE.FREQUENCY <- as.numeric(as.character(data$RISK.ALLELE.FREQUENCY))
+alzeheimers_disease <- data %>% select("PUBMEDID", "INITIAL.SAMPLE.SIZE", "RISK.ALLELE.FREQUENCY", "P.VALUE", "SNP_ID_CURRENT", "OR.or.BETA") %>% filter(grepl("European", INITIAL.SAMPLE.SIZE)) %>% filter(P.VALUE <= 5.0e-8) %>% filter(RISK.ALLELE.FREQUENCY < 1 & RISK.ALLELE.FREQUENCY > 0)
+alzeheimers_disease$disease <- "alzeheimers_disease"
+```
+
+
+# Re-create Figure 4 Kido et al.  
+```{r}
+combined <- rbind(age_related_macular_degeneration, alzeheimers_disease, ankylosing_spondylitis, asthma, atrial_fibrillation, celiac_disease, chronic_kidney_disease, chronic_lymphocytic_leukemia,colorectal_cancer, coronary_heart_disease, crohns_disease, inflamatory_bowel_disease, melanoma, metabolic_syndrome, multiple_sclerosis, myopia, obesity, parkinsons_disease, primary_biliary_cholangitis, primary_biliary_cholangitis, prostate_cancer, psoriasis, rheumatoid_arthritis, schizophrenia, sudden_cardiac_arrest, systemic_lupus_erythematosus, systemic_scleroderma, testicular_germ_cell_tumor, type_1_diabetes, type_2_diabetes, ulcerative_colitis, vitiligo)
+
+fig4 <- combined %>% select(RISK.ALLELE.FREQUENCY, disease)
+ggplot(data=fig4, aes(x=reorder(disease, RISK.ALLELE.FREQUENCY, FUN = median) , y=RISK.ALLELE.FREQUENCY)) + geom_boxplot(col = "navy", fill = "lightblue") + coord_flip() + ylab("Disease") + xlab("Risk allele frequency") + theme_bw()
+```
+
+# Number of Associations per Disease 
+```{r}
+sample_size <- combined %>% group_by(disease) %>% count()
+colnames(sample_size) <- c("disease", "num_associations")
+kable(sample_size)
+```
+
+
