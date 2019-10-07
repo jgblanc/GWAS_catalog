@@ -427,7 +427,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -436,7 +436,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -445,10 +445,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-01
+<strong>Last updated:</strong> 2019-10-07
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>GWAS_catalog/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -524,22 +524,46 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/GWAS_catalog/data/IDS.txt
+</td>
+<td style="text-align:left;">
+data/IDS.txt
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancGWAScatalogtreedd407a3b3f9fa706189a96cfc17db8fa0ddbe3e3targetblankdd407a3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/GWAS_catalog/tree/dd407a3b3f9fa706189a96cfc17db8fa0ddbe3e3" target="_blank">dd407a3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjgblancGWAScatalogtree15ce14d2ed38921b4f5bcb84bd7427e49d42d55btargetblank15ce14da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jgblanc/GWAS_catalog/tree/15ce14d2ed38921b4f5bcb84bd7427e49d42d55b" target="_blank">15ce14d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancGWAScatalogtreedd407a3b3f9fa706189a96cfc17db8fa0ddbe3e3targetblankdd407a3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjgblancGWAScatalogtree15ce14d2ed38921b4f5bcb84bd7427e49d42d55btargetblank15ce14da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -550,7 +574,15 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  code/Assoc_SNPs.txt
+    Untracked:  code/pull_snps.sh
+    Untracked:  code/pull_snps.sh~
+    Untracked:  code/text.txt
+    Untracked:  data/1kg_phase3_snps.tsv
+    Untracked:  data/1kg_phase3_snps_small.tsv
+    Untracked:  data/Assoc_SNPs.txt
     Untracked:  data/BRACAX_breast_cancer.tsv
+    Untracked:  data/IDS.txt
     Untracked:  data/age_related_macular_degeneration.tsv
     Untracked:  data/alzheimers_disease.tsv
     Untracked:  data/ankylosing_spondylitis.tsv
@@ -560,6 +592,7 @@ Untracked files:
     Untracked:  data/celiac_disease.tsv
     Untracked:  data/chronic_kidney_disease.tsv
     Untracked:  data/chronic_lymphocytic_leukemia.tsv
+    Untracked:  data/colnames.txt
     Untracked:  data/colorectal_cancer.tsv
     Untracked:  data/coronary_heart_disease.tsv
     Untracked:  data/crohns_disease.tsv
@@ -579,6 +612,8 @@ Untracked files:
     Untracked:  data/systemic_lupus_erythematosus.tsv
     Untracked:  data/systemic_scleroderma.tsv
     Untracked:  data/testicular_germ_cell_tumor.tsv
+    Untracked:  data/text.txt
+    Untracked:  data/text.txt~
     Untracked:  data/type_1_diabetes.tsv
     Untracked:  data/type_2_diabetes.tsv
     Untracked:  data/ulcerative_colitis.tsv
@@ -621,6 +656,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jgblanc/GWAS_catalog/blob/15ce14d2ed38921b4f5bcb84bd7427e49d42d55b/analysis/explore_data.Rmd" target="_blank">15ce14d</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2019-10-07
+</td>
+<td>
+Added derived vs ancestral analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jgblanc/GWAS_catalog/20c0720eb0487583ff5b22cfa70be4fa58759a41/docs/explore_data.html" target="_blank">20c0720</a>
+</td>
+<td>
+jgblanc
+</td>
+<td>
+2019-10-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -696,9 +765,11 @@ Recreated Kido Figure
 </div>
 </div>
 </div>
-<pre class="r"><code>library(dplyr)
+<pre class="r"><code>rm(list = ls())
+library(dplyr)
 library(ggplot2)
-library(knitr)</code></pre>
+library(knitr)
+library(data.table)</code></pre>
 <div id="data-cleaning" class="section level1">
 <h1>Data Cleaning</h1>
 <p>Filter for:</p>
@@ -929,7 +1000,7 @@ kable(sample_size)</code></pre>
 </div>
 <div id="risk-allele-freq-vs-effect-size" class="section level1">
 <h1>Risk Allele Freq vs Effect Size</h1>
-<pre class="r"><code>ggplot(data=combined, aes(x = RISK.ALLELE.FREQUENCY, y=OR.or.BETA)) + geom_point(col = &quot;navy&quot;) + facet_wrap(~disease, scales = &quot;free&quot;) + theme_bw()</code></pre>
+<pre class="r"><code>ggplot(data=combined, aes(x = RISK.ALLELE.FREQUENCY, y=OR.or.BETA)) + geom_point(col = &quot;navy&quot;) + facet_wrap(~disease, scales = &quot;free&quot;) + theme_bw() + xlim(c(0,1))</code></pre>
 <p><img src="figure/explore_data.Rmd/unnamed-chunk-36-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-36-1">
@@ -968,6 +1039,38 @@ jgblanc
 </table>
 </div>
 </div>
+</div>
+<div id="derived-vs-ancestral-allele-info" class="section level1">
+<h1>Derived vs Ancestral Allele Info</h1>
+<p>Get the IDS for the SNPs in the combined dataset</p>
+<pre class="r"><code>IDS &lt;- combined2$SNPS
+#write.table(IDS, &quot;~/GWAS_catalog/data/IDS.txt&quot;,row.names = F, quote = F, col.names = F)</code></pre>
+<p>Read in derived/ancestral allele info for all the combined SNPs that we had information for - generated using script pull_snp.sh</p>
+<pre class="r"><code>da_info &lt;- read.table(&quot;data/Assoc_SNPs.txt&quot;)
+coln &lt;- read.table(&quot;data/colnames.txt&quot;)
+colnames(da_info) &lt;- unlist(coln[1,])</code></pre>
+<p>Join the data table containing the dervied/ancestral info with the table containing the GWAS information</p>
+<pre class="r"><code>snps_with_da &lt;- inner_join(da_info, combined2, by=c(&quot;snp&quot; = &quot;SNPS&quot;)) %&gt;% distinct()</code></pre>
+<p>Column “STRONGEST.SNP.RISK.ALLELE” is in the form “rsID-BASE”. Process this column to get the risk allele on it’s own.</p>
+<pre class="r"><code>sra &lt;- as.character(snps_with_da$STRONGEST.SNP.RISK.ALLELE)
+sra_new &lt;- rep(NA, length(sra))
+for (i in 1:length(sra)) {
+  sra_new[i] &lt;- strsplit(sra[i], &quot;-&quot;)[[1]][2]
+}
+snps_with_da$risk_allele &lt;- sra_new</code></pre>
+<p>Determine if the risk allele is the derived or not.</p>
+<pre class="r"><code>derived_risk &lt;- subset(snps_with_da, snps_with_da$derived_allele == snps_with_da$risk_allele)
+derived_risk$derived_risk &lt;- &quot;yes&quot;
+ancestral_risk &lt;- subset(snps_with_da, snps_with_da$derived_allele != snps_with_da$risk_allele)
+ancestral_risk$derived_risk &lt;- &quot;no&quot;
+da_risk &lt;- rbind(derived_risk, ancestral_risk)</code></pre>
+<p>Risk Allele Freq vs Effect Size colored by derived vs. ancestral status</p>
+<pre class="r"><code>cols &lt;- c(&quot;deeppink4&quot;, &quot;navy&quot;)
+ggplot(data=da_risk, aes(x = RISK.ALLELE.FREQUENCY, y=OR.or.BETA, col = derived_risk)) + geom_point(alpha = 0.5) + facet_wrap(~disease, scales = &quot;free&quot;) + theme_bw() + xlim(c(0,1)) + scale_color_manual(values = cols, name = &quot;Risk Allele is Derived&quot;)</code></pre>
+<p><img src="figure/explore_data.Rmd/unnamed-chunk-44-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Box plot of risk allele frequencies separated by derived vs ancestral</p>
+<pre class="r"><code>ggplot(data=da_risk, aes(x=reorder(disease, RISK.ALLELE.FREQUENCY, FUN = median) , y=RISK.ALLELE.FREQUENCY, fill = derived_risk)) + geom_boxplot(col = &quot;black&quot;, alpha = 0.5) + coord_flip() + xlab(&quot;Disease&quot;) + ylab(&quot;Risk allele frequency&quot;) + theme_bw() + scale_fill_manual(values = cols, name = &quot;Risk Allele is Derived&quot;)</code></pre>
+<p><img src="figure/explore_data.Rmd/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -991,12 +1094,12 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.23    ggplot2_3.1.1 dplyr_0.8.1  
+[1] data.table_1.12.2 knitr_1.23        ggplot2_3.1.1     dplyr_0.8.1      
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.1       whisker_0.3-2    magrittr_1.5     workflowr_1.4.0 
  [5] munsell_0.5.0    tidyselect_0.2.5 colorspace_1.4-1 R6_2.4.0        
- [9] rlang_0.3.4      highr_0.8        plyr_1.8.4       stringr_1.4.0   
+ [9] rlang_0.3.4      plyr_1.8.4       stringr_1.4.0    highr_0.8       
 [13] tools_3.5.1      grid_3.5.1       gtable_0.3.0     xfun_0.7        
 [17] withr_2.1.2      git2r_0.25.2     htmltools_0.3.6  lazyeval_0.2.2  
 [21] yaml_2.2.0       rprojroot_1.3-2  digest_0.6.19    assertthat_0.2.1

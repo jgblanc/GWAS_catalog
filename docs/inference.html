@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="jgblanc" />
 
+<meta name="date" content="2019-10-02" />
 
-<title>Home</title>
+<title>inference</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -262,6 +267,90 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -269,6 +358,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -319,7 +418,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">inference</h1>
+<h4 class="author">jgblanc</h4>
+<h4 class="date">2019-10-02</h4>
 
 </div>
 
@@ -476,7 +577,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/jgblanc/GWAS_catalog/blob/15ce14d2ed38921b4f5bcb84bd7427e49d42d55b/analysis/index.Rmd" target="_blank">15ce14d</a>
+<a href="https://github.com/jgblanc/GWAS_catalog/blob/15ce14d2ed38921b4f5bcb84bd7427e49d42d55b/analysis/inference.Rmd" target="_blank">15ce14d</a>
 </td>
 <td>
 jgblanc
@@ -488,108 +589,6 @@ jgblanc
 Added derived vs ancestral analysis
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jgblanc/GWAS_catalog/fc3d760dad19f8802e36c13658cd36b9a1f42bb4/docs/index.html" target="_blank">fc3d760</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-10-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jgblanc/GWAS_catalog/blob/0fb620c2b27ca8d93594df0808e665e815618d39/analysis/index.Rmd" target="_blank">0fb620c</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-10-01
-</td>
-<td>
-Added link
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jgblanc/GWAS_catalog/17ac802371c3fab51a3ee20863302f4f739ab995/docs/index.html" target="_blank">17ac802</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-10-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jgblanc/GWAS_catalog/blob/8f9a7fd36fe94940817baf262cda8d9403be2c44/analysis/index.Rmd" target="_blank">8f9a7fd</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-10-01
-</td>
-<td>
-Recreated Kido Figure
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jgblanc/GWAS_catalog/487a75721b8c264c4646662b56d61dcb6f249b75/docs/index.html" target="_blank">487a757</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-09-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jgblanc/GWAS_catalog/blob/a8abc8e71a653ca0ce10caeacb9b8af996790ebb/analysis/index.Rmd" target="_blank">a8abc8e</a>
-</td>
-<td>
-jgblanc
-</td>
-<td>
-2019-09-30
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -597,9 +596,14 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>Welcome to my research website.</p>
-<p>Click on this <a href="explore_data.html">link</a> to explore the data on the page “GWAS Catalog Data”.<br />
-Click on the <a href="inference.html">link</a> to see the outline of the our inference process.</p>
+<div id="average-risk-allele-freq" class="section level2">
+<h2>Average Risk Allele Freq</h2>
+<p>x: risk allele freq</p>
+<p><span class="math inline">\(E[x] = E[x|\text{risk allele derived, found in GWAS}]P_{\text{risk}} + E[x|\text{protective allele derived, found in GWAS}]P_{\text{protective}}\)</span></p>
+<p>We expect that <span class="math inline">\(E[x|\text{risk allele derived, found in GWAS}]\)</span> is going to be less than 0.5 since most alleles are rare so given that the risk allele is derived we expect its freqeuncy to be less than 0.5. Similarly, we expect that <span class="math inline">\(E[x|\text{protective allele derived, found in GWAS}]\)</span> is greater than 0.5 because now the risk allele is ancestral so we expect it to be at a higher frequency.</p>
+<p>Under a neutral model: <span class="math inline">\(P_{\text{risk}} = P_{\text{protective}}\)</span>. This means that derived/ancestral status does not matter and <span class="math inline">\(E[x]\)</span> is just the average of <span class="math inline">\(E[x|\text{risk allele derived, found in GWAS}]\)</span> and <span class="math inline">\(E[x|\text{protective allele derived, found in GWAS}]\)</span>.</p>
+<p>However, when there is mutational bias we are changing the weights of each expectation. So if <span class="math inline">\(P_{\text{risk}} &gt; P_{\text{protective}}\)</span> then we will weight <span class="math inline">\(E[x|\text{risk allele derived, found in GWAS}]\)</span> more and expect that the final <span class="math inline">\(E[x]\)</span> will be less than 0.5.</p>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -615,6 +619,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 
