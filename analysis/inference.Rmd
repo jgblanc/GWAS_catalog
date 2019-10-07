@@ -1,0 +1,20 @@
+---
+title: "inference"
+author: "jgblanc"
+date: "2019-10-02"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Average Risk Allele Freq  
+
+x: risk allele freq  
+
+$E[x] = E[x|\text{risk allele derived, found in GWAS}]P_{\text{risk}} + E[x|\text{protective allele derived, found in GWAS}]P_{\text{protective}}$  
+
+We expect that $E[x|\text{risk allele derived, found in GWAS}]$ is going to be less than 0.5 since most alleles are rare so given that the risk allele is derived we expect its freqeuncy to be less than 0.5. Similarly, we expect that $E[x|\text{protective allele derived, found in GWAS}]$ is greater than 0.5 because now the risk allele is ancestral so we expect it to be at a higher frequency.  
+
+Under a neutral model: $P_{\text{risk}} = P_{\text{protective}}$. This means that derived/ancestral status does not matter and $E[x]$ is just the average of $E[x|\text{risk allele derived, found in GWAS}]$ and $E[x|\text{protective allele derived, found in GWAS}]$.  
+
+However, when there is mutational bias we are changing the weights of each expectation. So if $P_{\text{risk}} > P_{\text{protective}}$ then we will weight $E[x|\text{risk allele derived, found in GWAS}]$ more and expect that the final $E[x]$ will be less than 0.5. 
