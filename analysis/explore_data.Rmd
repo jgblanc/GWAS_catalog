@@ -347,6 +347,7 @@ snps_with_da$risk_allele <- sra_new
 
 Determine if the risk allele is the derived or not.  
 ```{r}
+snps_with_da <- subset(snps_with_da, risk_allele != "?")
 derived_risk <- subset(snps_with_da, snps_with_da$derived_allele == snps_with_da$risk_allele)
 derived_risk$derived_risk <- "yes"
 ancestral_risk <- subset(snps_with_da, snps_with_da$derived_allele != snps_with_da$risk_allele)
